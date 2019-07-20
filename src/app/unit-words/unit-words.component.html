@@ -1,0 +1,32 @@
+<mat-form-field><input type="number" matInput placeholder="unit" [(ngModel)]="unit"></mat-form-field>
+<button mat-raised-button style="margin-left: 20px" (click)="getWord()">Fetch Words</button>
+<div fxLayout = "row">
+  <nb-checkbox style="margin-left: 20px" [status] = "'info'" [(ngModel)]="showGoogle">Show Google</nb-checkbox>
+  <nb-checkbox style="margin-left: 20px" [status] = "colors[2]" [(ngModel)]="showSynonyms">Show Synonyms</nb-checkbox>
+</div>
+<!-- <div fxLayout = "row">
+  
+  <nb-checkbox style="margin-left: 20px" [(ngModel)]="mummyMode">Mummy Mode</nb-checkbox>
+</div><br> -->
+
+<nb-card *ngFor = "let word of words; let ind = index" [accent]="colors[ind%5]">
+    <nb-card-header>
+    {{word.word | titlecase}}
+    </nb-card-header>
+    <nb-card-body>
+      <b>{{word.meaning}}</b>
+    <hr>
+  <div *ngIf = "showGoogle && word && word.google != undefined" class="center-card">
+      <div *ngFor = "let item of Object.keys(word.google[0].meaning)">
+          <span>{{item}}</span>
+        <span *ngFor = "let innerItem of word.google[0].meaning[item]">
+          <div>Defination: {{innerItem.definition}}</div>
+          <div>Example: {{innerItem.example}}</div>
+          <span *ngIf = "showSynonyms">Synonyms: <span *ngFor = "let syn of innerItem.synonyms">{{syn}}, </span></span>
+          <br>
+        </span>
+      </div>
+      <button mat-button (click) = "clicked()">Next</button>
+    </div>
+  </nb-card-body>
+  </nb-card>

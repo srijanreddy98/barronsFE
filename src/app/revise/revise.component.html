@@ -1,0 +1,19 @@
+<mat-card class="center-card">
+  <mat-card-title>{{id + 1}} / 10</mat-card-title>
+  <h1>
+    {{words[id].word | titlecase}}
+  </h1>
+  <div *ngFor="let i of options;let ind = index" (click)="clicked(ind)">
+    <h3 [style.color]="getColor(ind)">
+      ({{ind + 1}})&nbsp;
+      <span *ngIf="show">{{i.meaning | titlecase}}</span>
+    </h3>
+  </div>
+</mat-card>
+<!-- <button mat-raised-button color = "primary" (click) = "reset()">Next</button> -->
+<mat-form-field><input type="number" matInput placeholder="timeInMiliseconds" [(ngModel)]="timeInMS"></mat-form-field>&emsp;
+<mat-slide-toggle style="margin-left: 20px" [(ngModel)]="autoincrement">Autoincrement unit</mat-slide-toggle><br>
+<mat-form-field><input type="number" matInput placeholder="unit" [(ngModel)]="unit"></mat-form-field>
+<mat-form-field><input type="number" matInput placeholder="No of Opts" [(ngModel)]="option"></mat-form-field>
+<button mat-raised-button style="margin-left: 20px" (click)="getWord()">Click</button>
+<!-- <mat-slide-toggle [(ngModel)]="unitwise">Unitwise</mat-slide-toggle><br> -->

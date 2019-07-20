@@ -1,0 +1,28 @@
+<mat-card class="center-card">
+  <mat-card-title>{{itera + 1}} / {{words.length}}</mat-card-title>
+  <div *ngIf = "itera < words.length && words.length != 0 && words[itera]" >
+    <div fxLayout = "row">
+    <h1 fxFlex = "70">
+      {{words[itera].word}} <button *ngIf="words[itera].pronunciation.link" mat-button (click) = "play()">Pro</button>
+    </h1>
+    <span fxLayoutAlign="center center"><mat-slide-toggle style="margin-left: 20px" [(ngModel)]="words[itera].mark1" (change) = "marked($event, words[itera].id)">Mark</mat-slide-toggle></span>
+  </div>
+    <div *ngIf = "!mummyMode" (click)="clicked()">
+      <h3 *ngIf="showing">{{words[itera].meaning}}</h3>
+      <h3 *ngIf="!showing">Show</h3>
+    </div>
+  </div>
+  <div *ngIf = "mummyMode">
+    <h3>{{words[itera].meaning}}</h3>
+    <button mat-button (click) = "clicked()">Next</button>
+  </div>
+</mat-card>
+<mat-form-field><input type="number" matInput placeholder="timeInMiliseconds" [(ngModel)]="timeInMS"></mat-form-field>&emsp;
+<mat-slide-toggle style="margin-left: 20px" [(ngModel)]="autoincrement">Autoincrement unit</mat-slide-toggle><br>
+<mat-form-field><input type="number" matInput placeholder="unit" [(ngModel)]="unit"></mat-form-field>
+<button mat-raised-button style="margin-left: 20px" (click)="getWord()">Click</button>
+<div fxLayout = "row">
+  <mat-slide-toggle style="margin-left: 20px" [(ngModel)]="markedWords">Revise marked words</mat-slide-toggle>
+  <mat-slide-toggle style="margin-left: 20px" [(ngModel)]="mummyMode">Mummy Mode</mat-slide-toggle>
+</div>
+<br>

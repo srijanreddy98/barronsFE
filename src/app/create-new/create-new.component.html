@@ -1,0 +1,27 @@
+<mat-card class="center-card">
+  <h1>Add word</h1>
+  <form [formGroup]="newWordForm" (ngSubmit)="onNewWord()">
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>Word</mat-label>
+        <input autocomplete="off" formControlName="word" matInput placeholder="eg. abate">
+        <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Meaning</mat-label>
+        <input autocomplete="off" formControlName="meaning" matInput placeholder="eg. to reduce">
+        <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Unit</mat-label>
+        <input autocomplete="off" formControlName="unit" matInput placeholder="eg. 1">
+        <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+      </mat-form-field>
+    </p>
+    <p>
+      <button type="submit" mat-button color="primary">Add Word</button>
+    </p>
+  </form>
+</mat-card>

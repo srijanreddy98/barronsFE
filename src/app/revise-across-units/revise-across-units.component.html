@@ -1,0 +1,83 @@
+<mat-form-field><input type="number" matInput placeholder="timeInMiliseconds" [(ngModel)]="timeInMS"></mat-form-field>
+&emsp;
+<nb-checkbox status="primary" style="margin-left: 20px" [(ngModel)]="autoincrement">Autoincrement unit</nb-checkbox><br>
+<mat-form-field><input type="number" matInput placeholder="unit" [(ngModel)]="unit"></mat-form-field>
+<mat-form-field><input type="number" matInput placeholder="unit2" [(ngModel)]="unit2"></mat-form-field>
+<mat-form-field *ngIf = "markedWords"><input type="number" matInput placeholder="num1" [(ngModel)]="num1"></mat-form-field>
+<mat-form-field *ngIf = "markedWords"><input type="number" matInput placeholder="num2" [(ngModel)]="num2"></mat-form-field>
+<div fxLayout="row">
+  <nb-checkbox status="primary" style="margin-left: 20px" [(ngModel)]="markedWords">Revise ✔️ words</nb-checkbox>
+  <nb-checkbox status="primary" style="margin-left: 20px" [(ngModel)]="mummyMode">Mummy Mode</nb-checkbox>
+</div>
+<div fxLayout="row">
+  <nb-checkbox status="primary" style="margin-left: 20px" [(ngModel)]="doubleMarked">Double ✔️</nb-checkbox>
+  <nb-checkbox status="primary" style="margin-left: 20px" [(ngModel)]="showGoogle">Google</nb-checkbox>
+</div>
+<div fxLayout="row">
+  <button mat-raised-button style="margin-left: 20px" (click)="getWord()">Fetch Words</button>
+</div>
+<br>
+{{words[itera].google[0].pronounciation}}
+<nb-card class="center-card" [accent]="colors[itera%5]">
+  <nb-card-header *ngIf="itera < words.length && words.length != 0 && words[itera]">
+    <div fxLayout="row">
+      <span fxFlex="30">{{itera + 1}} / {{words.length}}</span>
+      <div fxFlex="70" fxLayoutAlign="end center">
+        <nb-checkbox [status]="colors[itera%5]" [(ngModel)]="shuffleWords">Shuffle</nb-checkbox>
+      </div>
+    </div>
+    <div fxLayout="row">
+      <span class="h1" fxFlex="70">
+        {{words[itera].word | titlecase}} <button nbButton size="tiny" outline [status]="colors[itera]" *ngIf="proPresent"
+          (click)="play()">Pro</button>
+      </span>
+      <span fxLayoutAlign="center center" fxLayout = "column">
+        <nb-checkbox [status]="colors[itera%5]" style="margin-left: 20px" [(ngModel)]="words[itera].mark1"
+          (change)="marked($event, words[itera].id, words[itera].mark1)">Mark</nb-checkbox>
+          <nb-checkbox [status]="colors[itera%5]" style="margin-left: 20px" [(ngModel)]="words[itera].mark2"
+          (change)="marked2($event, words[itera].id, words[itera].mark2)">Mark2</nb-checkbox>
+      </span>
+    </div>
+  </nb-card-header>
+  <nb-card-body *ngIf="itera < words.length && words.length != 0 && words[itera]">
+    <div *ngIf="!mummyMode" fxLayout = "row">
+      <span class="h3" *ngIf="showing">{{words[itera].meaning}}</span>
+      <div *ngIf="!showing" fxFlex="80" (click)="clicked()"><button nbButton size="tiny" outline [status]="colors[itera%5]" class="h3" *ngIf="!showing">Show</button>
+      </div>
+      <div fxFlex = "20" *ngIf = "itera!==0  && !showing">
+        <button nbButton size="tiny" (click) = "back()" outline [status]="colors[itera%5]" class="h3" *ngIf="!showing">Back</button>
+      </div>
+    </div>
+    <div *ngIf="mummyMode">
+      <span class="h3">{{words[itera].meaning}}</span><br>
+      <button nbButton size="tiny" outline [status]="colors[itera%5]" (click)="clicked()">Next</button>
+    </div>
+  </nb-card-body>
+</nb-card>
+<br>
+<br>
+<nb-card [accent]="colors[itera%5]" *ngIf="showGoogle && words && words[itera] && words[itera].google != undefined" class="center-card">
+  <div *ngIf="itera < words.length && words.length != 0 && words[itera]">
+    <div *ngFor="let item of Object.keys(words[itera].google[0].meaning)">
+      <nb-card-header>{{item | titlecase}}</nb-card-header>
+      <span *ngFor="let innerItem of words[itera].google[0].meaning[item]">
+        <nb-card-header style="padding: 5px;">
+          <div>
+            <span class="h2">Definition: {{innerItem.definition}}</span>
+          </div>
+        </nb-card-header>
+        <nb-card-body>
+
+          <div>
+            <span class="h3">Example: {{innerItem.example}}</span>
+          </div>
+          <span>Synonyms: <span *ngFor="let syn of innerItem.synonyms">{{syn}}, </span></span>
+        </nb-card-body>
+        <br>
+      </span>
+    </div>
+  </div>
+  <nb-card-footer>
+      <button nbButton size="tiny" outline [status]="colors[itera]" (click)="clicked()">Next</button>
+</nb-card-footer>
+</nb-card>
